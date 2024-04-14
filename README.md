@@ -5,7 +5,7 @@ Repo for Ubicomp2024 paper: "Seeing through the Tactile: 3D Human Shape Estimati
 
 ## Temporal multi-modality In-bed Dataset (TIP)
 
-![](images\dataset_overview.png)
+![](./images/dataset_overview.png)
 
 ### Features
 
