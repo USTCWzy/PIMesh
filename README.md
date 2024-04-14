@@ -32,9 +32,9 @@ Repo for Ubicomp2024 paper: "Seeing through the Tactile: 3D Human Shape Estimati
         | 22-24 |   4    |   5    |     179     | 152  | 166.17 (7.39) |    75.20    | 38.00 | 55.52 (9,59) |
 * **Large-scale**: **152K** three-modality synchronized temporal images from **9** volunteers performing **30** postures in a total of **40** groups.
 
-### Visualization
+### Visualization 
 
-![](./images/a slice of our dataset.gif)
+![](./images/dataset.gif)
 
 ### Contents and Attributes
 
