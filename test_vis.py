@@ -75,7 +75,7 @@ def test_vis(args, result_path):
         segment_index = np.array([i for i in range(segment[0], segment[1])])
         db_segment_index = np.array([i for i in range(db_segment[0], db_segment[1])])
 
-        rgb_path = rf'{name[i]}/Group{dataset_idx_mapping[idx[i]]}'
+        rgb_path = rf'{name[i]}/{dataset_idx_mapping[idx[i]]}'
 
         results['theta'][segment[0]:segment[1], :2] -= ([0, 55 * 0.0311] - (corner[segment[0]:segment[1], :] - sensor_position[i][0])) * [-1, 1]
 
