@@ -39,7 +39,7 @@ Repo for Ubicomp2024 paper: "Seeing through the Tactile: 3D Human Shape Estimati
 ### Contents and Attributes
 
 ```
-Notes: Dictionary posture_index provide the start and end index for each static posture and motion during the whole data sequence in a group. A .xlsx file is given with detailed description of each posture and its corresponding series number in th Index.npy file.
+Notes: Dictionary posture_index provides the start and end index for each static posture and motion during the whole data sequence in a group. A .xlsx file is given with detailed description of each posture and its corresponding series number in th Index.npy file.
 ```
 
 The data are organized in experimental groups and `.rar` format (each `.rar` file means a group in the experiment) . In each compressed file, there are:
