@@ -142,7 +142,7 @@ def parser_train_config():
     parser.add_argument('--gru_hidden_layers', default=768, type=int, help='gru hidden layer length')
     parser.add_argument('--gru_layers', default=1, type=int, help='no. of gru layers')
 
-    parser.add_argument('--trans_depth', default=1, type=int, help='no. of trans layers')
+    parser.add_argument('--trans_depth', default=2, type=int, help='no. of trans layers')
 
     # regressor
     parser.add_argument('--feature_len', default=768, type=int, help='regressor feature length')
