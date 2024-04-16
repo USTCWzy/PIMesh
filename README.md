@@ -39,7 +39,9 @@ Repo for Ubicomp2024 paper: "Seeing through the Tactile: 3D Human Shape Estimati
 ### Contents and Attributes
 
 ```
-Notes: Dictionary posture_index provides the start and end index for each static posture and motion during the whole data sequence in a group. A .xlsx file is given with detailed description of each posture and its corresponding series number in th Index.npy file.
+Notes: Dictionary posture_index provides the start and end index for each static posture and motion during the whole data sequence in a group. 
+
+A .xlsx file is given with detailed description of each posture and its corresponding series number in the Index.npy file.
 ```
 
 The data are organized in experimental groups and `.rar` format (each `.rar` file means a group in the experiment) . In each compressed file, there are:
@@ -120,6 +122,8 @@ The data are organized in experimental groups and `.rar` format (each `.rar` fil
 * `valid_frame_slice.npy`: Due to the collision between subjects and the camera and the lagging during image storage, some images are discarded in the final dataset. And the the rest of the frame sequences are organized into videos of varying lengths. `valid_frame_slice` records the start and end index of valid sequences~(videos) of the current group. In other words, a continuous experimental record might be divided into numbers of valid sequences in a dataset group.
 
 * `valid_frame_index.npy`: `valid_frame_index.npy` records the valid frame index in the current group.
+
+* **posture sequence and index of each group is given in the dictionary `posture_index`， A .xlsx file is given with detailed description of each posture and its corresponding series number in the Index.npy file （Please read it before you want to utilize the posture labels!)**. 
 
 ### Camera Calibration
 
