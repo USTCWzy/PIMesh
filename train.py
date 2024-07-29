@@ -25,12 +25,12 @@ from utils.others.utils import NoteGeneration, setup_seed
 from utils.others.loss_record import updateLoss
 from config.cmd_train_parser import parser_train_config
 
-from pytorch3d.renderer import (
-                                RasterizationSettings, MeshRenderer,
-                                MeshRasterizer,
-                                SoftSilhouetteShader,
-                                )
-from pytorch3d.renderer.cameras import OrthographicCameras
+# from pytorch3d.renderer import (
+#                                 RasterizationSettings, MeshRenderer,
+#                                 MeshRasterizer,
+#                                 SoftSilhouetteShader,
+#                                 )
+# from pytorch3d.renderer.cameras import OrthographicCameras
 
 from torch.utils.data import DataLoader
 
@@ -133,24 +133,24 @@ def main(args):
     pressure_reso = args.sensor_size
 
 
-    camera_silh = OrthographicCameras(
-        device=device,
-        focal_length=torch.Tensor([[-1 / sensor_pitch[1], 1 / sensor_pitch[0]]]),
-        image_size=torch.Tensor([pressure_reso]),
-        principal_point=torch.Tensor([[0, pressure_reso[0]]]),
-        in_ndc=False)
-
-    sigma = 1e-4
-    raster_settings_soft = RasterizationSettings(
-        image_size=pressure_reso,
-        blur_radius=np.log(1. / 1e-4 - 1.) * sigma,
-        faces_per_pixel=50,
-        bin_size=0,
-    )
-
-    renderer_silhouette = MeshRenderer(rasterizer=MeshRasterizer(
-        cameras=camera_silh, raster_settings=raster_settings_soft),
-        shader=SoftSilhouetteShader())
+    # camera_silh = OrthographicCameras(
+    #     device=device,
+    #     focal_length=torch.Tensor([[-1 / sensor_pitch[1], 1 / sensor_pitch[0]]]),
+    #     image_size=torch.Tensor([pressure_reso]),
+    #     principal_point=torch.Tensor([[0, pressure_reso[0]]]),
+    #     in_ndc=False)
+    #
+    # sigma = 1e-4
+    # raster_settings_soft = RasterizationSettings(
+    #     image_size=pressure_reso,
+    #     blur_radius=np.log(1. / 1e-4 - 1.) * sigma,
+    #     faces_per_pixel=50,
+    #     bin_size=0,
+    # )
+    #
+    # renderer_silhouette = MeshRenderer(rasterizer=MeshRasterizer(
+    #     cameras=camera_silh, raster_settings=raster_settings_soft),
+    #     shader=SoftSilhouetteShader())
 
     # live_loss = updateLoss()
 
@@ -236,8 +236,8 @@ def main(args):
     # regressore loss
     loss = HPSPILoss(
         camera=camera,
-        camera_silh=camera_silh,
-        renderer_silhouette=renderer_silhouette,
+        camera_silh=None,
+        renderer_silhouette=None,
         faces=torch.tensor(body_model.faces.astype(np.int64), dtype=torch.long,
                                         device=device).unsqueeze_(0).repeat([args.seqlen * args.batch_size, 1, 1]),
         bed_depth=args.bed_depth,
@@ -304,33 +304,34 @@ def main(args):
 if __name__ == '__main__':
 
     args = parser_train_config()
-    args.gpu = 1
+    # args.gpu = 1
     gpu = args.gpu
     os.environ['CUDA_VISIBLE_DEVICES'] = str(gpu)
+    main(args)
     #
     #
-    args.exp_mode = 'unseen_subject'
-    args.curr_fold = 1
-    args.lr = 3e-4
-    args.encoder = 'resnet50'
-    args.temp_encoder = 'trans'
-    args.cosine = 1
-
-
-    # args.mae_not_freeze = False
+    # args.exp_mode = 'unseen_subject'
+    # args.curr_fold = 1
+    # args.lr = 3e-4
+    # args.encoder = 'resnet50'
+    # args.temp_encoder = 'trans'
+    # args.cosine = 1
     #
     #
-    #
-    # [3, 6], [1, 7], [4, 5]
-    for depth in [6, 5]:
-        args.trans_depth = depth
-        for seqlen in [1, 2, 4, 8, 16, 32, 64][::-1]:
-            if depth == 6 and seqlen > 2:
-                continue
-            args.seqlen = seqlen
-            args.batch_size = int(256 / seqlen)
-            main(args)
-    # main(args)
+    # # args.mae_not_freeze = False
+    # #
+    # #
+    # #
+    # # [3, 6], [1, 7], [4, 5]
+    # for depth in [6, 5]:
+    #     args.trans_depth = depth
+    #     for seqlen in [1, 2, 4, 8, 16, 32, 64][::-1]:
+    #         if depth == 6 and seqlen > 2:
+    #             continue
+    #         args.seqlen = seqlen
+    #         args.batch_size = int(256 / seqlen)
+    #         main(args)
+    # # main(args)
 
     #
     # args.exp_mode = 'unseen_subject'

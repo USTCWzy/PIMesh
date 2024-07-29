@@ -7,7 +7,8 @@ def parser_train_config():
 
     # dataset & experiment
     parser.add_argument('--dataset_path',
-                        default='/workspace/wzy1999/Public_Dataset/wzy_opt_dataset',
+                        # default='F:\dataset\TIP\wzy_opt_dataset',
+                        default=r'/workspace/wzy1999/Public_Dataset/wzy_opt_dataset',
                         type=str,
                         help='dataset path')
     parser.add_argument('--curr_fold',
@@ -45,15 +46,15 @@ def parser_train_config():
 
     # checkpoints and logging
     parser.add_argument('--logging_path',
-                        default='/workspace/wzy1999/3d_pose_estimation/in_bed_3d_human_estimation/log',
+                        default='log',
                         type=str,
                         help='dataset path')
     parser.add_argument('--checkpoints_path',
-                        default='/workspace/wzy1999/3d_pose_estimation/in_bed_3d_human_estimation/checkpoints',
+                        default='checkpoints',
                         type=str,
                         help='dataset path')
     parser.add_argument('--test_save_path',
-                        default='/workspace/wzy1999/3d_pose_estimation/in_bed_3d_human_estimation/results/trans_nums',
+                        default='trans_nums',
                         type=str,
                         help='test save path')
     parser.add_argument('--test_best_checkpoints',

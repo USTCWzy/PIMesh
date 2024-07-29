@@ -3,7 +3,7 @@ import torch.nn as nn
 
 import numpy as np
 
-from pytorch3d.structures import Meshes
+# from pytorch3d.structures import Meshes
 from utils.geometry.geometry import batch_rodrigues
 from utils.joints.evaluate import joint_mapping
 
@@ -47,8 +47,8 @@ class HPSPILoss(nn.Module):
 
         self.device = device
         self.camera = camera.to(device)
-        self.camera_silh = camera_silh.to(device)
-        self.render_silhoule = renderer_silhouette.to(device)
+        # self.camera_silh = camera_silh.to(device)
+        # self.render_silhoule = renderer_silhouette.to(device)
         self.faces = faces.to(device)
 
         self.bed_depth = torch.tensor([0, 0, bed_depth]).to(device)
@@ -175,16 +175,16 @@ class HPSPILoss(nn.Module):
         # return (conf * self.criterion_keypoints(pred_keypoints_3d, gt_keypoints_3d)).mean()
         return self.criterion_keypoints(pred_keypoints_3d, gt_keypoints_3d).mean()
 
-    def pressure_projection(self, verts, gt_pressure_binary):
-        verts *= torch.tensor([1, -1, 1]).to(self.device)
-        verts[:, :, 2] = verts[:, :, 2] + torch.tensor(
-            0.03
-        ).to(self.device)
-
-        meshes_world = Meshes(verts=verts[:, :, :], faces=self.faces[:verts.shape[0]])
-        images_predicted = self.render_silhoule(meshes_world, cameras=self.camera_silh, lights=None)
-
-        return torch.abs(images_predicted[:, :, :, -1] - gt_pressure_binary).mean()
+    # def pressure_projection(self, verts, gt_pressure_binary):
+    #     verts *= torch.tensor([1, -1, 1]).to(self.device)
+    #     verts[:, :, 2] = verts[:, :, 2] + torch.tensor(
+    #         0.03
+    #     ).to(self.device)
+    #
+    #     meshes_world = Meshes(verts=verts[:, :, :], faces=self.faces[:verts.shape[0]])
+    #     images_predicted = self.render_silhoule(meshes_world, cameras=self.camera_silh, lights=None)
+    #
+    #     return torch.abs(images_predicted[:, :, :, -1] - gt_pressure_binary).mean()
 
     def loss_smpl_pose(self, pred_pose, gt_pose):
         pred_rotmat_valid = batch_rodrigues(pred_pose.reshape(-1, 3)).reshape(-1, 24, 3, 3)

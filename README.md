@@ -1,7 +1,57 @@
 # PIMesh: Video-based In-bed Human Shape Estimation from Pressure Images
+
 Repo for Ubicomp2024 paper: "Seeing through the Tactile: 3D Human Shape Estimation from Temporal In-Bed Pressure Images" 
 
 ![](./images/pipeline.png)
+
+## PIMesh
+
+The base codes  are largely borrowed from [VIBE](https://github.com/mkocabas/VIBE) and [TCMR](https://github.com/hongsukchoi/TCMR_RELEASE).
+
+### Installation
+
+* PIMesh is tested on Ubuntu 20.04.4 LTS with Pytorch 1.11.0 and Python 3.8.12. 
+* Download SMPL-related parameters from [here](http://210.45.71.78:8888/d/9b3b7c0d47474b03bd29/) and put them under `${ROOT}/data/`. The data directory structure should follow the below hierarchy (some files are not used in the current version).
+
+```
+${ROOT}  
+|-- data  
+|   |-- essentials  
+|   |-- models  
+|   |-- ...
+```
+
+
+
+### Training
+
+* We provide an input example below based on the optimal configuration, but you are also free to adjust the parameters according to your specific requirements.	
+
+    ```bash
+    python train.py --gpu 1 --exp_mode unseen_group --lr 3e-4 --encoder resnet50 --temp_encoder trans --cosine 1 --trans_depth 2 --seqlen 16 --batch_size 16
+    ```
+
+    * `--curr_fold`   is used in unseen-subject cross-validation.
+    * After training, the checkpoints are saved in `${ROOT}/checkpoints/`, and the logs are saved in `${ROOT}/log/`. The experiment is named by your experiment setting as shown in `utils/others/utils.py def NoteGenration`
+
+* If you want to train the PIMesh-ViT network, you can download the MAE-pretrained weights from [here](http://210.45.71.78:8888/d/9b3b7c0d47474b03bd29/).
+
+    ```latex
+    Ps: We have realized that we mistakenly deleted the pre-trained model. Considering the unsatisfactory performance of PIMesh-ViT, we believe that retraining is not an urgent matter. If you have specific requirements, please contact us via email, and we will prioritize retraining MAE4PI based on our work schedule.
+    ```
+
+### Evaluation
+
+* Download pre-trained weights from [here](http://210.45.71.78:8888/d/9b3b7c0d47474b03bd29/).
+
+    ```
+    Unseen_Group:  PIMesh_unseen_group_resnet50_trans_spin_0.0003_16_16_0.25_10.0_0_100.0_100_300.0_50.0_50.0_50.0_20.0_0.0_cosine
+    Unseen_Subject Group 1 for evaluation: PIMesh_1_resnet50_trans_spin_0.0003_16_16_0.25_10.0_0_100.0_100_300.0_50.0_50.0_50.0_20.0_0.0_cosine
+    Unseen_Subject Group 2 for evaluation: PIMesh_2_resnet50_trans_spin_0.0003_16_16_0.25_10.0_0_100.0_100_300.0_50.0_50.0_50.0_20.0_0.0_cosine
+    Unseen_Subject Group 3 for evaluation: PIMesh_3_resnet50_trans_spin_0.0003_16_16_0.25_10.0_0_100.0_100_300.0_50.0_50.0_50.0_20.0_0.0_cosine
+    ```
+
+    
 
 ## Temporal multi-modality In-bed Dataset (TIP)
 
@@ -12,6 +62,7 @@ Repo for Ubicomp2024 paper: "Seeing through the Tactile: 3D Human Shape Estimati
 ### Features
 
 * **Three Modalities**:  Pressure, RGB, and depth images.
+
 * **Labels**: including 2D keypoint positions in image and world coordinate systems, 3D human shape labels (in SMPL), posture class, and body attributes.
 
     * 2D keypoint labels based on COCO17
@@ -30,6 +81,7 @@ Repo for Ubicomp2024 paper: "Seeing through the Tactile: 3D Human Shape Estimati
         | :---: | :----: | :----: | :---------: | :--: | :-----------: | :---------: | :---: | :----------: |
         | Range |  Male  | Female |     Max     | Min  |  Mean (std)   |     Max     |  Min  |  Mean (std)  |
         | 22-24 |   4    |   5    |     179     | 152  | 166.17 (7.39) |    75.20    | 38.00 | 55.52 (9,59) |
+
 * **Large-scale**: **152K** three-modality synchronized temporal images from **9** volunteers performing **30** postures in a total of **40** groups.
 
 ### Visualization 

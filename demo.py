@@ -28,12 +28,12 @@ from utils.others.utils import NoteGeneration, setup_seed
 from utils.others.loss_record import updateLoss
 from config.cmd_train_parser import parser_train_config
 
-from pytorch3d.renderer import (
-                                RasterizationSettings, MeshRenderer,
-                                MeshRasterizer,
-                                SoftSilhouetteShader,
-                                )
-from pytorch3d.renderer.cameras import OrthographicCameras
+# from pytorch3d.renderer import (
+#                                 RasterizationSettings, MeshRenderer,
+#                                 MeshRasterizer,
+#                                 SoftSilhouetteShader,
+#                                 )
+# from pytorch3d.renderer.cameras import OrthographicCameras
 
 def main(args):
 
@@ -208,8 +208,8 @@ def main(args):
     # regressore loss
     loss = HPSPILoss(
         camera=camera,
-        camera_silh=camera_silh,
-        renderer_silhouette=renderer_silhouette,
+        camera_silh=None,
+        renderer_silhouette=None,
         faces=torch.tensor(body_model.faces.astype(np.int64), dtype=torch.long,
                                         device=device).unsqueeze_(0).repeat([args.seqlen * args.batch_size, 1, 1]),
         bed_depth=args.bed_depth,
