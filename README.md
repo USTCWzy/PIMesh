@@ -57,7 +57,7 @@ ${ROOT}
 
 ![](./images/dataset_overview.png)
 
-**Temporal human In-bed Pose dataset (TIP)**: a multi-modality dataset of 152K images from 9 subjects and 40 groups with diverse human representation ground truths (posture, joints, and 3D mesh). The download link is in [Seafile](http://210.45.71.78:8888/d/2eb0988be81b461a85da/).
+**Temporal human In-bed Pose dataset (TIP)**: a multi-modality dataset of 152K images from 9 subjects and 40 groups with diverse human representation ground truths (posture, joints, and 3D mesh). Please mail to `wzy1999@mail.ustc.edu.cn` for the dataset link.
 
 ### Features
 
