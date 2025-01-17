@@ -81,7 +81,7 @@ class InBedPressureDataset(Dataset):
 
             elif self.mode == 'eval':
                 for name in name_group_map:
-                    if name == '4':
+                    if name == '3':
                         idx = name_group_map[name][1] - 3
                     else:
                         idx = name_group_map[name][1] - 2
@@ -89,7 +89,7 @@ class InBedPressureDataset(Dataset):
                     self.load_db(idx)
             else:
                 for name in name_group_map:
-                    if name == '4':
+                    if name == '3':
                         idx = name_group_map[name][1] - 2
                     else:
                         idx = name_group_map[name][1] - 1
