@@ -70,7 +70,7 @@ class InBedPressureDataset(Dataset):
         if self.model_type == 'unseen_group':
             if self.mode == 'train':
                 for name in name_group_map:
-                    if name == '4':
+                    if name == '3':
                         for idx in [10, 11, 14]:
                             print(f'load train dataset: {idx}')
                             self.load_db(idx)
