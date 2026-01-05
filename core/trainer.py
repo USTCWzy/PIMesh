@@ -323,6 +323,46 @@ class Trainer():
 
         self.print_test_fps()
 
+    def demo(self):
+        self.model.eval()
+
+        loader = self.val_loader
+        mode = 'eval'
+
+        length = loader.dataset.get_data_len()
+
+        results = {
+            'theta': np.zeros((length, 85)),
+            # 'verts': np.zeros((length, 6890, 3)),
+            'kp_3d': np.zeros((length, 25, 3))
+        }
+
+        with torch.no_grad():
+            for batch_idx, batch in tqdm(enumerate(loader)):
+                batch = {k: v.type(torch.float32).detach().to(self.device) for k, v in batch.items()}
+
+                torch.cuda.synchronize()
+                start_time = time.perf_counter()
+
+                outputs = self.model(batch['images'])[0]
+
+                torch.cuda.synchronize()
+                elapsed = time.perf_counter() - start_time
+
+                self.test_time_list.append(elapsed)
+
+                index_list = batch['curr_frame_idx'].cpu().reshape(-1).type(torch.long).numpy()
+                reduce = lambda x: x.reshape((x.shape[0] * x.shape[1],) + x.shape[2:])
+                for key in results:
+                    results[key][index_list] = reduce(outputs[key].cpu().detach().numpy())
+
+                # self.loss_record.update(losses.item(), loss_dict, type)
+
+            np.savez(self.test_save_path + '/test.npz', **results)
+            self.print_metric(mode)
+
+        self.print_test_fps()
+
 
     def accel_evaluate(self, mode):
 
